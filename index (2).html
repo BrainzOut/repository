@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function searchCars() {
+    // Получить значения полей поиска
+    var city = document.getElementById("city").value;
+    var date = document.getElementById("date").value;
+    var time = document.getElementById("time").value;
+    
+    // Проверить, заполнены ли все поля поиска
+    if (city && date && time) {
+        // Очистить таблицу
+        document.getElementById("carList").innerHTML = "";
+        
+        // Массив доступных машин
+        var cars = [
+            {
+                model: "Toyota Corolla",
+                year: 2019,
+                color: "Серебристый",
+                availability: "Доступна",
+                imgSrc: "toyota_corolla.jpg",
+                altText: "Toyota Corolla"
+            },
+            {
+                model: "Honda Civic",
+                year: 2020,
+                color: "Черный",
+                availability: "Не доступен",
+                imgSrc: "honda_civic.jpg",
+                altText: "Honda Civic"
+            },
+            {
+                model: "Nissan Sentra",
+                year: 2021,
+                color: "Белый",
+                availability: "Доступен",
+                imgSrc: "nissan_sentra.jpg",
+                altText: "Nissan Sentra"
+            }
+        ];
+        
+        // Получить случайное количество машин, которые войдут в таблицу
+        var randomNum = Math.floor(Math.random() * cars.length) + 1;
+        
+        // Добавить случайные машины в таблицу
+        for (var i = 0; i < randomNum; i++) {
+            var car = cars[i];
+            var newRow = "<tr>" +
+                "<td>" + car.model + "</td>" +
+                "<td>" + car.year + "</td>" +
+                "<td>" + car.color + "</td>" +
+                "<td>" + car.availability + "</td>" +
+                "<td><img src='" + car.imgSrc + "' alt='" + car.altText + "'></td>" +
+                "<td><button onclick='reserveCar(\"" + car.model + "\",\"" + car.year + "\",\"" + car.color + "\")'>Забронировать</button></td>" +
+                "</tr>";
+            
+            document.getElementById("carList").innerHTML += newRow;
+        }
+        
+        // Показать список машин
+        document.getElementById("carList").style.display = "table";
+    } else {
+        alert("Пожалуйста, заполните все поля поиска.");
+    }
+}
+
+function reserveCar(model, year, color) {
+    // Открывает новое окно или модальное окно с формой для бронирования автомобиля
+    var reservationWindow = window.open("", "_blank", "width=400,height=400");
+    reservationWindow.document.write("<h2>Бронирование автомобиля:</h2>");
+    reservationWindow.document.write("<p>Модель: " + model + "</p>");
+    reservationWindow.document.write("<p>Год выпуска: " + year + "</p>");
+    reservationWindow.document.write("<p>Цвет: " + color + "</p>");
+    reservationWindow.document.write("<form>");
+    reservationWindow.document.write("<label for='passport'>Серия паспорта:</label>");
+    reservationWindow.document.write("<input type='text' id='passport' name='passport' required><br>");
+    reservationWindow.document.write("<label for='driverLicense'>Водительское удостоверение:</label>");
+    reservationWindow.document.write("<input type='text' id='driverLicense' name='driverLicense' required><br>");
+    reservationWindow.document.write("<label for='contactNumber'>Контактный номер телефона:</label>");
+
+    reservationWindow.document.write("<input type='tel' id='contactNumber' name='contactNumber' required><br>");
+    reservationWindow.document.write("<input type='submit' value='Отправить'>");
+    reservationWindow.document.write("</form>");
+}
+</script>
+<style>
+   table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+    }
+    
+    th, td {
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+    
+    th {
+        background-color: #f2f2f2;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
+    img {
+        max-width: 100px; /* Установите максимальную ширину изображений */
+        max-height: 100px; /* Установите максимальную высоту изображений */
+    }
+</style>
+</head>
+<body>
+    <h1>Каршеринг компания Auto Elegans</h1>
+    
+    <h2>Информация о каршеринге</h2>
+    <p>Auto Elegans предоставляет услуги каршеринга, которые позволяют арендовать автомобиль на несколько часов или дней. Мы предлагаем различные модели автомобилей для удовлетворения потребностей наших клиентов.</p>
+    
+    <h2>Поиск свободных машин</h2>
+    <form>
+        <label for="city">Город:</label>
+        <select id="city" name="city">
+            <option value="" disabled selected>Выберите город</option>
+            <option value="Asia/Tashkent">Ташкент</option>
+            <option value="Asia/Samarkand">Самарканд</option>
+            <option value="Asia/Bukhara">Бухара</option>
+            <option value="Asia/Andijan">Андижан</option>
+            <!-- Добавьте другие города Узбекистана здесь -->
+        </select>
+        
+        <label for="date">Дата:</label>
+        <input type="date" id="date" name="date">
+        
+        <label for="time">Время:</label>
+        <input type="time" id="time" name="time">
+        
+        <input type="button" value="Найти свободные машины" onclick="searchCars()">
+    </form>
+    
+    <h2>Результаты поиска:</h2>
+    <table id="carList">
+        <tr>
+            <th>Модель</th>
+            <th>Год выпуска</th>
+            <th>Цвет</th>
+            <th>Доступность</th>
+            <th>Фото</th>
+            <th>Действие</th>
+        </tr>
+    </table>
+</body>
+</html>
